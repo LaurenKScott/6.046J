@@ -36,33 +36,47 @@ def InsertionSort(A):
 # MERGE SORT: O(n^2) space, O()
 # A is an array of integers, p, q, r are indices such that p <= q <r < A.length
 def Merge(A, p, q, r):
-    # Define beginning indices of subarrays 
+    # Define beginning indices of subarrays
+    # left half should be length (q-p) + 1
+    # right half should be length(r-q) 
+    # total lengt h= left + right = q-p + 1 + r-q = r - p
     n1 = (q - p) + 1
     n2 = r - q
     left = []
     right = []
+    # range = (0...q-p)
     for i in range(n1):
         left.append(A[p+i])
+    # set last element of left to infinity so we don't have to deal with out of range indices
     left.append(math.inf)
+    # range = (0...r-q-1)
     for j in range(n2):
         right.append(A[q+j+1])
+    # same. set last element of right to infinity so no out of range compares 
     right.append(math.inf)
     i = 0
     j = 0
     k = p
     while k <= r:
+        # if left array contains next lowest value
         if left[i] < right[j]:
+            # place value from left array into A[k] and increment i
             A[k] = left[i]
             i += 1
         else:
+            # same but for right, increment j
             A[k] = right[j]
             j += 1
         k += 1
 
 def MergeSort(A, p, r):
     if p < r:
+        # Take q to be the halfway point between p and r
         q = (p + r) // 2
+        # Recursive calls to mergesort on left and right halves of A
+        # LEFT: p --> q
         MergeSort(A, p, q)
+        # RIGHT: q+1 --> r
         MergeSort(A, q+1, r)
         Merge(A, p, q, r)
         return A
