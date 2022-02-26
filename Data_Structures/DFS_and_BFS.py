@@ -2,9 +2,6 @@
 Depth-first search and Breadth-first search
 '''
 
-import sys
-sys.path.append('/Users/lauren/Documents/PROJECTS/6.046J/')
-import Foundations
 #represent weights with nodes ds
 # profit is a positive int, representing potential profit of a site
 class Node:
