@@ -81,17 +81,18 @@ def MergeSort(A, p, r):
         Merge(A, p, q, r)
         return A
 
+# UNIT TESTING
+if __name__ == '__main__':
+    print("\nINSERTION SORT DEMO", end="\n-----------------------------\n")
+    AList = []
+    for i in range(12):
+        AList.append(random.randint(0,16))
+    print("\nUNSORTED:", AList, end="\n\n")
+    print("\nSORTED:", InsertionSort(AList))
 
-print("\nINSERTION SORT DEMO", end="\n-----------------------------\n")
-AList = []
-for i in range(12):
-    AList.append(random.randint(0,16))
-print("\nUNSORTED:", AList, end="\n\n")
-print("\nSORTED:", InsertionSort(AList))
-
-print("\n\n\nMERGE SORT DEMO", end="\n------------------------------\n")
-BList = []
-for x in range(12):
-    BList.append(random.randint(0,16))
-print("\nUNSORTED:", BList)
-print("\nSORTED:", MergeSort(BList, 0 , len(BList)-1))
+    print("\n\n\nMERGE SORT DEMO", end="\n------------------------------\n")
+    BList = []
+    for x in range(12):
+        BList.append(random.randint(0,16))
+    print("\nUNSORTED:", BList)
+    print("\nSORTED:", MergeSort(BList, 0 , len(BList)-1))
