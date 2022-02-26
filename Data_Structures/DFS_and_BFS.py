@@ -2,8 +2,9 @@
 Depth-first search and Breadth-first search
 '''
 
-#represent weights with nodes ds
+# represent weights with nodes ds
 # profit is a positive int, representing potential profit of a site
+# name is a string representing the name of the node (for easy visualization)
 class Node:
     def __init__(self, profit, name= None):
         self.name = name
@@ -30,13 +31,6 @@ K = Node(850, 'K')
 graph = {A:[C, D], B:[C], C:[A, B, F, G], D:[A, E],
  E:[D, H], F:[C, I], G: [C], H:[E, K], I:[F], J:[K], K:[H,J]}
 
-def weight_sort(graph):
-    weights = {nod.get_name():nod.get_profit() for nod in graph}
-    by_weight = sorted(weights.items(), key=lambda x:x[1], reverse=True)   
-    #Traverse list backwards because InsertionSort yields least to greatest and we want greatest to least
-    sorted_weight_dict = {name: weight for (name, weight) in by_weight}
-    return sorted_weight_dict
-
 '''
 DEPTH FIRST SEARCH
 '''
@@ -50,9 +44,25 @@ def DFS(visited, graph, node):
             DFS(visited, graph, neighbor)
     return visited
 
+'''
+BREADTH FIRST SEARCH
+'''
+def BFS(graph, node):
+    visited = []
+    queue= []
+    visited.append(node)
+    queue.append(node)
+    while queue:
+        to_vis = queue.pop(0)
+        for neighbor in graph[to_vis]:
+            if neighbor not in visited:
+                queue.append(neighbor)
+                visited.append(neighbor)
+    return visited
+
 def print_path(path):
     for node in path[:-1]:
-        print(node.get_name(), end="-->")
+        print(node.get_name(), end=" --> ")
     print(path[-1].get_name())
 
 def path_weight(visited):
@@ -63,4 +73,5 @@ def path_weight(visited):
 
 node = A 
 visited= []
-DFS(visited, graph, node)
+print_path(DFS(visited, graph, node))
+print_path(BFS(graph, node))
