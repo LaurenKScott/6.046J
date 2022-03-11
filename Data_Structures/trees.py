@@ -146,17 +146,5 @@ J.p, J.left = E, K
 K.p = J
 
 
-bstree.root = A
-
+bstree.TreeInsert(A)
 bstree.InOrderWalk(A)
-print()
-#expect J, key = 13
-
-L = Node(12)
-bstree.TreeInsert(L)
-bstree.InOrderWalk(A)
-print()
-
-bstree.TreeDelete(I)
-bstree.InOrderWalk(A)
-print()
