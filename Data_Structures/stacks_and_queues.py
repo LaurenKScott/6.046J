@@ -43,6 +43,15 @@ class InOut:
             current = current.next
         return rep
 
+    def iter(self):
+        list_rep = []
+        current = self.head
+        while current:
+            list_rep.append(current)
+            current = current.next
+        return list_rep
+
+
 
 """
 STACK == LAST IN, FIRST OUT
@@ -75,7 +84,7 @@ class Stack(InOut):
             self.size -= 1
             # We want to return the orig. key passed when initializing node, 
             # not Node object pointer
-            return pop_node.key
+        return pop_node
 
 """
 QUEUE == FIRST IN, FIRST OUT

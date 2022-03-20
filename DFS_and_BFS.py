@@ -71,6 +71,7 @@ def print_path(path):
     for vertex in path[:-1]:
         print(vertex.get_name(), end="  ")
     print(path[-1].get_name())
+    return path
 
 def path_weight(visited):
     sum = 0
@@ -83,9 +84,11 @@ def mod_DFS(graph, vertex):
     skip = []
     stack = sq.Stack()
     stack.push(vertex)
-    while not stack.isEmpty():
+    while stack.getSize() > 0:
         to_visit = stack.pop()
-        if to_visit not in visited and to_visit not in skip:
+        if to_visit in visited or to_visit in skip:
+            continue
+        elif to_visit not in skip:
             visited.append(to_visit)
             for neighbor in graph[to_visit]:
                 if neighbor not in visited and neighbor not in skip:
@@ -116,14 +119,13 @@ we want to memoize paths that have already been explored via DFS
 '''
 vis = []
 weight = {}
+
 for vertex in final_graph:
     if vertex not in vis:
         path = mod_DFS(graph, vertex)
-        strpath = print_path(path)
-        weight[strpath] =  path_weight(path)
-        for node in path:
-            vis.append(node)
-
-print(weight)
+        weight = path_weight(path)
+        vis.extend(path)
+        print_path(path)
+        print(weight)
 
         
