@@ -57,10 +57,9 @@ class Stack(InOut):
 
     # PUSH: Append/addition method specific to Stack
     # O(1): Adds a node with given key to END of stack and updates self.size
-    def push(self, key):
-        nod = Node(key)
-        nod.next = self.head
-        self.head = nod
+    def push(self, node):
+        node.next = self.head
+        self.head = node
         self.size += 1
 
     # POP: Removal method specific to Stack 
@@ -93,17 +92,17 @@ class Queue(InOut):
     
     # ENQUEUE: Append/addition method specific to Queue
     # O(1): add a new node to the tail of queue, update self.size
-    def enqueue(self, key):
-        nod = Node(key)
+    def enqueue(self, node):
+        
         if self.isEmpty():
             # When enqueueing to empty Queue, need to set head and tail
             # (In a list of 1 element, that elt. is both first and last)
-            self.head = nod 
-            self.tail = nod
+            self.head = node 
+            self.tail = node
         else:
             # Node linked to the TAIL end of the queue ('back of the line')
-            self.tail.next = nod
-            self.tail = nod
+            self.tail.next = node
+            self.tail = node
         self.size += 1
 
     # DEQUEUE: Removal method specific to Queue
@@ -122,21 +121,5 @@ test_stack = Stack()
 test_queue = Queue()
 
 
-'''
-test_stack.push(1)
-test_stack.push(2)
-test_stack.push(3)
-test_stack.push(4)
-print(test_stack)
-print(test_stack.pop())
-print(test_stack)
-'''
 
-'''
-test_queue.enqueue('a')
-test_queue.enqueue('b')
-test_queue.dequeue()
-test_queue.enqueue('c')
-test_queue.enqueue('d')
-print(test_queue)
-'''
+
