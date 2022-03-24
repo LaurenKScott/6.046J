@@ -1,6 +1,7 @@
 '''
 Depth-first search and Breadth-first search
 '''
+import time
 from re import L
 from Data_Structures import stacks_and_queues as sq
 # represent weights with vertexs ds
@@ -98,11 +99,6 @@ def mod_DFS(graph, vertex):
                         if n not in visited and n not in skip:
                             stack.push(n)
     return visited
-#nod = A 
-#visited= []
-#print_path(DFS(visited, graph, nod))
-#print()
-# print_path(BFS(graph, vertex))
 
 store_graph = [{'vertex': vertex, 'name': vertex.get_name(), 'profit': vertex.get_profit()} 
     for vertex in graph.keys()]
@@ -118,14 +114,27 @@ we want to memoize paths that have already been explored via DFS
 
 '''
 vis = []
-weight = {}
+
+stringpath = ''
+weight = 0
+st = time.time()
+for vertex in final_graph:
+    stringpath += vertex.get_name() + "  "
+    weight += vertex.get_profit()
+end = time.time()
+elapsed = end-st
+print(stringpath, weight, elapsed, sep = "  ")
 
 for vertex in final_graph:
     if vertex not in vis:
+        st = time.time()
         path = mod_DFS(graph, vertex)
+        end = time.time()
+        elapsed = end-st
         weight = path_weight(path)
         vis.extend(path)
         print_path(path)
-        print(weight)
+        print(weight, "Time: ", elapsed)
+        
 
         
