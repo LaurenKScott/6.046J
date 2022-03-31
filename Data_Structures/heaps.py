@@ -118,27 +118,17 @@ class MinHeap(Heap):
             self.swap(i, least_found)
             self.MinHeapify(least_found)
 
-'''
-mx = MaxHeap()
-mn = MinHeap()
-append_vals = [11, 14, 18, 8, 7, 9, 3, 12, 4, 1]
-for val in append_vals:
-    mx.addHeap(val)
-    mn.addHeap(val)
+print("testing...")
+for i in range(1000):
+    nmx = MaxHeap()
+    arr = random.sample(range(-5,15), 12)
+    for val in arr:
+        nmx.addHeap(val)
+    nmx = nmx.Heapsort()
 
-mx.BuildMaxHeap()
-mn.BuildMinHeap()
-'''
-
-nmx = MaxHeap()
-arr = random.sample(range(-5,15), 12)
-for val in arr:
-    nmx.addHeap(val)
-
-nmx = nmx.Heapsort()
-
-if (nmx.array[1:] != sorted(nmx.array[1:])):
-    print(nmx)
+    if (nmx.array[1:] != sorted(nmx.array[1:])):
+        print("FAILURE: ROUND", i, "\n", nmx)
+print("DONE!")
 '''
 So why heaps?
 
