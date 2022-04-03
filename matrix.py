@@ -13,12 +13,9 @@ Encryption, machine learning
 example_matrix = [
     [1, 3, -1, 9],
     [-4, 0, 9, -5],
-    [2, 6, 2, -9]
+    [2, 6, 2, -9],
+    [7, 10, -1, 4]
 ]
-print(example_matrix[0][2]) #expected: -1
-print(len(example_matrix))
-
-
 
 '''
 # LUP Decomposition of a matrix, A
@@ -29,11 +26,15 @@ print(len(example_matrix))
 '''
 # REQUIRES SQUARE MATRIX INPUT      
 def LUP_Decomp(A):
-    x = len(A)
+    n = len(A)
     L = []
     U = []
-    y = U * x
-    P = []
+    pi = [None for i in range(n+1)]
+    for i in range(1, n+1):
+        pi[i] = i
+    pi = pi[1:]
+    return pi
+print(LUP_Decomp(example_matrix))
 
 # From Ax = b, PA = LU, we have PAx=Pb ==> LUx = Pb
 # A = P(inv)LU
@@ -82,4 +83,3 @@ class Matrix:
             return self.mat[i][j]
         else:
             return False
-
