@@ -7,8 +7,6 @@ class RangeTree:
 BST, Red-Black Tree
 '''
 # from random import randint
-from re import X
-
 
 class Node:
     def __init__(self, key):
@@ -19,12 +17,13 @@ class Node:
 
 class Tree:
     def __init__(self):
-        self.root = None
+        self.nil = None
+        self.root = self.nil
 
 class BST(Tree):
     def __init__(self):
         super().__init__()
-
+ 
     # prints node keys in sorted order
     def InOrderWalk(self, node):
         if node is not None:
@@ -175,13 +174,13 @@ class RBTree(BST):
         # first, make y's old right subtree into node's new left subtree
         node.left = y.right
         # if y has a right child
-        if y.right is not None:
+        if y.right != self.nil:
             # make node its parent
             y.right.p = node
         # y's new parent is node's old parent
         y.p = node.p
         # if node was originally the root of the tree
-        if node.p is None:
+        if node.p == self.nil:
             # make y the root
             self.root = y
         # else, if node was its parent's right child (node.key > node.p.key)
@@ -199,7 +198,7 @@ class RBTree(BST):
     def RBInsert(self, node):
         y = None
         x = self.root
-        while x is not None:
+        while x != self.nil:
             y = x 
             # if node.key < x.key
             if node.key < x.key:
@@ -210,7 +209,7 @@ class RBTree(BST):
         # continue until you hit a leaf. y's val will be the last non-NIL x val
         node.p = y
         # this can only happen if the tree was originally empty
-        if y is None:
+        if y == self.nil:
             # so set our insert node as the root
             self.root = node
         # next we figure out if node should be a left or right child of y
@@ -219,7 +218,7 @@ class RBTree(BST):
         else:
             y.right = node
         # make sure node is now a leaf before trying to rebalance
-        node.left, node.right = None, None
+        node.left, node.right = self.nil, self.nil
         # Now set node's color to red
         node.color = 'r'
         # Fix the red-black balance of the tree using insert-fix
@@ -268,13 +267,57 @@ class RBTree(BST):
                 node.p.p.color = 'r'
                 self.LeftRotate(node)
         self.root.color = 'b'
-
+    # swaps nodey into nodex's place
     def RBTransplant(self, nodex, nodey):
-        pass
+        if nodex.p == self.nil:
+            self.root = nodey
+        elif nodex == nodex.p.left:
+            nodex.p.left = nodey
+        else: 
+            nodex.p.right = nodey
+        nodey.p = nodex.p
+
     def RBDelete(self, node):
-        pass
+        y = node
+        y_oc = y.color
+        if node.left == self.nil:
+            x = node.right
+            self.RBTransplant(node, node.right)
+        elif node.right == self.nil:
+            x = node.left
+            self.RBTransplant(node, node.left)
+        else:
+            y = self.TreeMin(node.right)
+            y_oc = y.color
+            x = y.right
+            if y.p == node:
+                x.p = y
+            else: 
+                self.RBTransplant(y, y.right)
+                y.right = node.right
+                y.right.p = y
+            self.RBTransplant(node, y)
+            y.left = node.left
+            y.left.p = y
+            y.color = node.color
+        if y_oc == 'b':
+            self.RBDeleteFix(x)
+
     def RBDeleteFix(self, node):
-        pass
+        while node != self.root and node.color == 'b':
+            if node == node.p.left:
+                w = node.p.right
+                if w.color == 'r':
+                    w.color = 'b'
+                    node.p.color = 'r'
+                    self.LeftRotate(node.p)
+                    w = node.p.right
+                if w.left.color == 'b' and w.right.color == 'b':
+                    w.color = 'r'
+                    node = node.p
+                elif w.right.color == 'b':
+                    pass
+        node.color = 'b'
     
 A, B, C =  Node(15), Node(6), Node(18)
 D, E, F, G =  Node(3), Node(7), Node(17), Node(20)
@@ -282,17 +325,7 @@ H, I, J = Node(2), Node(4), Node(13)
 K = Node(9)
 
 bstree = BST()
-'''
-A.left, A.right = B, C
-B.p, B.left, B.right = A, D, E
-C.p, C.left, C.right = A, F, G
-D.p, D.left, D.right = B, H, I
-E.p, E.right = B, J
-F.p, G.p = C, C
-H.p, I.p = D, D
-J.p, J.left = E, K
-K.p = J
-'''
+
 
 bstree.TreeInsert(A)
 
@@ -310,4 +343,3 @@ bstree.InOrderWalk(A)
 print()
 
 rbt = RBTree()
-rbt.RBInsert(A)
