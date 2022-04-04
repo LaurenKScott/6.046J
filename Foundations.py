@@ -81,18 +81,65 @@ def MergeSort(A, p, r):
         Merge(A, p, q, r)
         return A
 
-# UNIT TESTING
-if __name__ == '__main__':
+def ins_test():
     print("\nINSERTION SORT DEMO", end="\n-----------------------------\n")
-    AList = []
-    for i in range(12):
-        AList.append(random.randint(0,16))
+    AList = [random.choice(range(10)) for x in range(16)]
+    
     print("\nUNSORTED:", AList, end="\n\n")
     print("\nSORTED:", InsertionSort(AList))
 
+def merge_test():
     print("\n\n\nMERGE SORT DEMO", end="\n------------------------------\n")
-    BList = []
-    for x in range(12):
-        BList.append(random.randint(0,16))
+    BList = [random.choice(range(10)) for x in range(16)]
+
     print("\nUNSORTED:", BList)
     print("\nSORTED:", MergeSort(BList, 0 , len(BList)-1))
+
+# Given integer c map to binary array
+def BinaryArray(c):
+    barr = []
+    if c == 0:
+        barr.append(0)
+    while c > 0:
+        barr.append(c%2)
+        c = c // 2
+    return barr
+
+def barr_to_str(barr):
+    revbarr = [str(d) for d in barr[::-1]]
+    bstr = ''.join(revbarr)
+    return bstr
+
+# Binary array 
+def IncBinArr(barr):
+    carry = 1
+    i = 0
+    while i < len(barr) and carry == 1:
+        if barr[i] == 0:
+            barr[i] = 1
+            carry = 0
+            continue
+        elif barr[i] == 1:
+            barr[i] = 0
+        i+=1
+    if i == len(barr) and carry == 1:
+        barr.append(1)
+    return barr
+# UNIT TESTING
+if __name__ == '__main__':
+
+    barr15 = BinaryArray(15)
+    bstr15 = barr_to_str(barr15)
+    print(barr15, bstr15, sep="   ")
+    inc15 = IncBinArr(barr15)
+    print(inc15, barr_to_str(inc15), sep="   ")
+    barr16 = BinaryArray(16)
+    print(barr16, barr_to_str(barr16))
+    barr12 = BinaryArray(12)
+    bstr12 = barr_to_str(barr12)
+    inc12 = IncBinArr(barr12)
+    print(barr12, bstr12, sep="   ")
+    print(inc12, barr_to_str(inc12))
+    print(BinaryArray(13), barr_to_str(BinaryArray(13)))
+
+

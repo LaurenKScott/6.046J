@@ -3,6 +3,7 @@ A demonstration of the STACK and QUEUE data structures, implemented in python
 
 REFERENCE: INTRODUCTION TO ALGORITHMS, CLRS, CHAPTER 10
 '''
+import random as rnd
 
 # Node object for implementing a SINGLY linked list
 # Key can be any type, next is always initialized as None (pop/enqueue will handle linkage)
@@ -86,6 +87,12 @@ class Stack(InOut):
             # not Node object pointer
         return pop_node
 
+    #MULTIPOP: Remove and return the HEAD node K times
+    def multipop(self, k):
+        while not self.isEmpty() and k > 0:
+            self.pop()
+            k -= 1
+
 """
 QUEUE == FIRST IN, FIRST OUT
 Analogous to a line of people at a cash register. First come, first served
@@ -129,6 +136,8 @@ class Queue(InOut):
 test_stack = Stack()
 test_queue = Queue()
 
-
-
+stack_vals = rnd.sample(range(-10, 10), 12)
+for val in stack_vals:
+    node = Node(val)
+    test_stack.push(node)
 
