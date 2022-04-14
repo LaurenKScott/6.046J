@@ -10,11 +10,11 @@ Systems of equations, polynomial operations
 Encryption, machine learning
 '''
 # Matrix as a list of lists (array of arrays whatever)
-example_matrix = [
-    [1, 3, -1, 9],
-    [-4, 0, 9, -5],
-    [2, 6, 2, -9],
-    [7, 10, -1, 4]
+emx = [
+    [2, 3, 1, 5],
+    [6, 13, 5, 19],
+    [2, 19, 10, 23],
+    [4, 10, 11, 31]
 ]
 
 '''
@@ -24,17 +24,55 @@ example_matrix = [
 # U is an UPPER TRIANGULAR matrix
 # P is a PERMUTATION matrix
 '''
-# REQUIRES SQUARE MATRIX INPUT      
-def LUP_Decomp(A):
+
+
+# INITIALIZES THE L MATRIX. THIS IS NOT THE FINAL DECOMP
+def get_L(A):
+    # Lower triangular matrix has ones on main diagonal, 0's above the diagonal
+    # and original matrix entries below the diagonal
     n = len(A)
     L = []
+    # Create row L[j][*] from entries of A[j][*]
+    for j in range(n):
+        # MAIN DIAGONAL of A is A[x][x] for all x in n
+        # populate main diagonal with ones (if x == j, we are on main bc A[j][x] == A[x][x])
+        # else, if x < j, we are BELOW the diagonal. so populate with A[j][x]
+        # everything else (ABOVE diagonal) is 0
+        row = [1 if x==j else (0 if x > j else None)  for x in range(n)]
+        L.append(row)
+    return L
+
+def get_U(A):
+    n = len(A)
     U = []
-    pi = [None for i in range(n+1)]
-    for i in range(1, n+1):
-        pi[i] = i
-    pi = pi[1:]
-    return pi
-print(LUP_Decomp(example_matrix))
+    for j in range(n):
+        row = [None if x > j else 0 for x in range(n)]
+        U.append(row)
+    return U
+
+# REQUIRES SQUARE MATRIX INPUT, assume list of list representation      
+def LUP_Decomp(A):
+    # pivot starts at a11 downto ann
+    # v is remaining column values
+    # omega_t is remaining row values
+    # A' is submatrix square
+    # pivot remains untouched
+    n = len(A)
+    L = get_L(A) # 1's on diagonal, 0s above diagonal
+    U = get_U(A) # 0s below diagonal
+    
+    for k in range(n):
+        U[k][k] = A[k][k]
+        for i in range(k+1, n):
+            L[i][k] = A[i][k] / A[k][k] # L[i][k] = v[i][*]
+            U[k][i] = A[k][i] # U[k][i] = wT
+        for i in range(k+1, n):
+            for j in range(k+1, n):
+                A[i][j] = A[i][j] - (L[i][k] * U[k][j])
+    return L, U
+    
+   
+print(LUP_Decomp(emx))
 
 # From Ax = b, PA = LU, we have PAx=Pb ==> LUx = Pb
 # A = P(inv)LU
@@ -83,3 +121,4 @@ class Matrix:
             return self.mat[i][j]
         else:
             return False
+
