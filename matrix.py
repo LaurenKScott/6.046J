@@ -118,3 +118,34 @@ mB = decompB[1]
 #pi = decomp_result[0]
 #mA = decomp_result[1]
 print(LUP_Solve(piB, mB, bB))
+
+def cofactor(A, i, j):
+    cof = []
+    for row in (A[:i] + A[i+1:]):
+        cof.append(row[:j] + row[j+1:])
+    return cof
+
+def determinant(A):
+    n = len(A)
+    if n == 2:
+        det = (A[0][0] * A[1][1]) - (A[1][0] * A[0][1])
+        return det
+    s = 0
+    for col in range(n):
+        cur_ent = A[0][col]
+        coeff = (-1) ** col
+        sub = cofactor(A, 0, col)
+        sub_det = determinant(sub)
+        s += coeff * cur_ent * sub_det
+    return s
+
+def invert(A):
+    d = determinant(A)
+
+
+test = [[-4, -9, 10, 0],
+        [-2, 4, 3, -6],
+        [-10, 10, 9, -7],
+        [5, -10, 6, 6]]
+     
+print(determinant(test))
