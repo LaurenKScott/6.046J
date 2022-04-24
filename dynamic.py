@@ -1,6 +1,6 @@
 # Dynamic programming problems
 from math import inf
-import random
+
 '''
 Rod-cutting problem: We have a rod of length n (inches). We also have a 
 price table, p, which represents how much money (dollars) we would obtain 
