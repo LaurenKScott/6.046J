@@ -56,13 +56,36 @@ def count_sort_dig(A, digit, r):
     # working backwards from len(A) to 0
     for m in range(len(A)-1, -1, -1):
         digAi = (A[m]//(r**digit)) % r
+        # decrement C FIRST. ensures stable sort.
+        # if A[i] == A[j] but i<j, then i will appear BEFORE j in 
+        # the sorted output list. this is def of stable sort
         C[digAi] -= 1
         B[C[digAi]] = A[m]
     return B
 
-print(count_sort_dig(A, 1, 5))
+Q = [4329, 457, 657, 839, 436, 720, 355]
+#print(count_sort_dig(Q, 0, 10))
 # A is the input array, r is a chosen radix
-def radix_sort(A, r):
-    for i in range(r):
-        pass
+def radix_sort(A, d):
+    for i in range(d):
+        A = count_sort_dig(A, i, 10)
+        print(A)
+    return A
+print(radix_sort(Q, 4))
 
+'''
+EXPLAIN WHY SORTING BY LEAST SIG DIG. 
+stable sort: 
+tie-breaking: if digit[i] is equal for #s k and m,
+then the previous column's sort result (less significant
+digit) will break the tie due to stability of counting 
+sort. say k = 572, n = 482 and m = 475. least sig dig is [0] bc 
+of our definition in count_sort_dig k[0] == n[0] < m[0] 
+(since 2<5). our order is now k < n < m.
+next step k[1] == m[1] < n[1]. since k before m in previous 
+step, k before m here. Our order becomes k < m < n. 
+next m[2] == n[2] < k[2]. m before n in previous step, m before
+n here. the tie breaker of next least significant digit has 
+already been considered in our previous step. now we have
+m < n < k. 475 < 482 < 572 correct
+'''
