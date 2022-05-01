@@ -119,11 +119,11 @@ mB = decompB[1]
 #mA = decomp_result[1]
 print(LUP_Solve(piB, mB, bB))
 
-def cofactor(A, i, j):
-    cof = []
+def minor(A, i, j):
+    m = []
     for row in (A[:i] + A[i+1:]):
-        cof.append(row[:j] + row[j+1:])
-    return cof
+        m.append(row[:j] + row[j+1:])
+    return m
 
 def determinant(A):
     n = len(A)
@@ -134,18 +134,39 @@ def determinant(A):
     for col in range(n):
         cur_ent = A[0][col]
         coeff = (-1) ** col
-        sub = cofactor(A, 0, col)
+        sub = minor(A, 0, col)
         sub_det = determinant(sub)
         s += coeff * cur_ent * sub_det
     return s
 
 def invert(A):
     d = determinant(A)
+    if d == 0:
+        raise Exception("Determinant is 0. Matrix not invertible")
+    mult = 1/d 
+    Atemp = []
+    Ainv = []
+    for i in range(len(A)):
+        minrow = []
+        for j in range(len(A[i])):
+            ij = minor(A, i, j)
+            min = determinant(ij)
+            minrow.append(min)
+        Atemp.append(minrow)
+    for i in range(len(A)):
+        for j in range(len(A[i])):
+            Atemp[i][j] *= ((-1)**(i+j))
+    for i in range(len(A)):
+        invrow = []
+        for j in range(len(A[i])):
+            invrow.append(Atemp[j][i])
+        Ainv.append(invrow)
+    for i in range(len(Ainv)):
+        for j in range(len(Ainv[i])):
+            Ainv[i][j] *= mult
+    return Ainv
 
-
-test = [[-4, -9, 10, 0],
-        [-2, 4, 3, -6],
-        [-10, 10, 9, -7],
-        [5, -10, 6, 6]]
+test = [[1, 2, 3], [0, 1, 4], [5, 6, 0]]
      
 print(determinant(test))
+print(invert(test))
