@@ -166,7 +166,7 @@ def invert(A):
             Ainv[i][j] *= mult
     return Ainv
 
-test = [[1, 2, 3], [0, 1, 4], [5, 6, 0]]
+test = [[0, 1, 2], [1, 2, 3], [3, 1, 1]]
      
 print(determinant(test))
 print(invert(test))
