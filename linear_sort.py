@@ -93,18 +93,29 @@ m < n < k. 475 < 482 < 572 correct
 
 '''
 BUCKET SORT: AVERAGE CASE O(n)
+When? when you can assume a uniform distribution across range of 
+expected values in array. Uniform, random, independent distribution
+over interval [0, 1)
+This interval is divided into n equal sized subintervals ("buckets")
+Since we assume uniform distribution and n is # of elements, we 
+can assume each bucket will contain a sufficiently small list
+that it can be quickly sorted using InsertionSort (sort in place).
+Then, merge the buckets
 '''
 def bucket_sort(A):
     n = len(A)
-    B = [] 
+    B = []
     for i in range(n):
         # B[i] is an empty list for all i initially
         B.append([])
+    print(B)
     for i in range(n):
+        # d is floor int of (# of buckets) * (dec. value at A[i])
         d = int(n*A[i])
         B[d].append(A[i])
     for j in range(n):
         # use insertionsort to sort each list in place
+        # size of B[j] amortized to O(1) bc of uniform dist assumption
         B[j] = InsertionSort(B[j])
     print(B)
     k = 0
@@ -114,6 +125,6 @@ def bucket_sort(A):
             k += 1
     return A
 
-B = [0.450, 0.978, 0.524, 0.191, 0.154, 0.534, 0.090, 0.988, 0.823, 0.399]
+B = [0.450, 0.978, 0.524, 0.191, 0.154, 0.003, 0.534, 0.988, 0.823, 0.399]
 
 print(bucket_sort(B))
