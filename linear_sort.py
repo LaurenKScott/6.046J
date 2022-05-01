@@ -2,7 +2,7 @@
 Lower bounds for comparison sort = O(nlgn)
 If we want to do better, then comparing elts is not the way
 '''
-
+from Foundations import InsertionSort
 # COUNTING SORT
 # given length n array, A of unsorted elts, where all elts <= some k
 # 
@@ -40,7 +40,7 @@ STABLE SORT:
 the elements that occur first in A, will occur first in B also
 this is why decrementing C is so important
 '''
-print(count_sort(A, 5))
+#print(count_sort(A, 5))
 
 
 def count_sort_dig(A, digit, r):
@@ -69,9 +69,8 @@ Q = [4329, 457, 657, 839, 436, 720, 355]
 def radix_sort(A, d):
     for i in range(d):
         A = count_sort_dig(A, i, 10)
-        print(A)
     return A
-print(radix_sort(Q, 4))
+#print(radix_sort(Q, 4))
 
 '''
 EXPLAIN WHY SORTING BY LEAST SIG DIG. 
@@ -89,3 +88,32 @@ n here. the tie breaker of next least significant digit has
 already been considered in our previous step. now we have
 m < n < k. 475 < 482 < 572 correct
 '''
+
+# TAKEAWAY: SMART RADIX CHOICE --> LINEAR SORT
+
+'''
+BUCKET SORT: AVERAGE CASE O(n)
+'''
+def bucket_sort(A):
+    n = len(A)
+    B = [] 
+    for i in range(n):
+        # B[i] is an empty list for all i initially
+        B.append([])
+    for i in range(n):
+        d = int(n*A[i])
+        B[d].append(A[i])
+    for j in range(n):
+        # use insertionsort to sort each list in place
+        B[j] = InsertionSort(B[j])
+    print(B)
+    k = 0
+    for i in range(len(B)):
+        for j in range(len(B[i])):
+            A[k] = B[i][j]
+            k += 1
+    return A
+
+B = [0.450, 0.978, 0.524, 0.191, 0.154, 0.534, 0.090, 0.988, 0.823, 0.399]
+
+print(bucket_sort(B))
