@@ -7,8 +7,10 @@ POLYNOMIAL A(X) WITH DEGREE N-1 --> HIGHEST NONZERO COEFF
 A(x) = SIGMA(bounds j=0 upto j=n-1) a(sub_j) * x^j
 a is the jth coefficient, x is raised to the jth power
 '''
+import math
 
-
+xt = complex(4, 5)
+print(xt.real)
 '''
 HORNERS RULE FOR EVALUATION IN O(N) TIME
 ADDITION AND SUBTRACTION TAKE O(N) TIME (ADDITIVE COEFFICIENTS THEN HORNER --> 2*N)
@@ -29,3 +31,23 @@ coefficients = [] # n-1 * 1
 # we have O(n^2) operations required to multiply polynomials using this rep
 
 # SOLUTION: clever choice of sample points allows for O(n*lgn) EVAL AND INTERPOLATION
+# A is input array of complex numbers
+def DFT(k, A):
+    n = len(A)
+    # output array of 
+    conj = []
+    for k in range(n):
+        #noting that python supports complex numbers. format is a+bj
+        xk = 0
+        for t in range(n):
+            # angle = 2*pi*k*t/n
+            angle = (math.pi * 2 * k * t) / n
+            ta = complex(math.cos(angle), math.sin(angle)) 
+            xt = A[t] + ta
+            xk += xt
+        conj.append(xk)
+    return conj
+
+            
+
+
